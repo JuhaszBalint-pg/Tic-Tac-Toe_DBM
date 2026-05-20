@@ -1,60 +1,69 @@
 #startup, bases
 x1 = None
-y1 = None
+o1 = None
 x2 = None
-y2 = None
+o2 = None
 run = True
+none_count = 0
 
-def rajzX(ui1, ui2):
+
+def rajzX(tabla, ui1, ui2):
     tabla[ui1][ui2] = 'X'
 
-def rajzO(ui1, ui2):
+def rajzO(tabla, ui1, ui2):
     tabla[ui1][ui2] = 'O'
 
 def game_display(tabla):    
-    for i in range(0, len(tabla)):
-        for j in range(0, len(tabla)):
-            if tabla [i][j] == None:
+    for sor in range(0, len(tabla)):
+        for oszlop in range(0, len(tabla)):
+            if tabla [sor][oszlop] == None:
                 print('_', end = ' ')
             else:
-                print(tabla[i][j], end = ' ')
+                print(tabla[sor][oszlop], end = ' ')
         print()
 
-def check_winnerO(tabla):
-    return((tabla[1]=='O' and tabla[2]== 'O' and tabla[3]=='O' )or
+def check_winnerO(board):
+    if  ((board[1][1]=='O' and board[1][2]== 'O' and board[1][3]=='O' )or
 
-            (tabla[4]=='O' and tabla[5]=='O' and tabla[6]=='O' )or
+            (board[2][1]=='O' and board[2][2]=='O' and board[2][3]=='O' )or
 
-            (tabla[7]=='O' and tabla[8]=='O' and tabla[9]=='O' )or
+            (board[3][1]=='O' and board[3][2]=='O' and board[3][3]=='O' )or
 
-            (tabla[1]=='O' and tabla[4]=='O' and tabla[7]== 'O' )or
+            (board[1][1]=='O' and board[2][1]=='O' and board[3][1]== 'O' )or
 
-            (tabla[2]=='O' and tabla[5]=='O' and tabla[8]=='O' )or
+            (board[1][2]=='O' and board[2][2]=='O' and board[3][2]=='O' )or
 
-            (tabla[3]=='O' and tabla[6]=='O' and tabla[9]=='O' )or
+            (board[1][3]=='O' and board[2][3]=='O' and board[3][3]=='O' )or
 
-            (tabla[1]=='O' and tabla[5]=='O' and tabla[9]=='O' )or
+            (board[1][1]=='O' and board[2][2]=='O' and board[3][3]=='O' )or
 
-            (tabla[3]=='O' and tabla[5]=='O' and tabla[7]=='O' ))
+            (board[1][3]=='O' and board[2][2]=='O' and board[3][1]=='O' )):
+        return True
 
 
-def check_winnerX(tabla):
-    return((tabla[1]=='X' and tabla[2]== 'X' and tabla[3]=='X' )or
+def check_winnerX(board):
+    if  ((board[1][1]=='X' and board[1][2]== 'X' and board[1][3]=='X' )or
 
-            (tabla[4]=='X' and tabla[5]=='X' and tabla[6]=='X' )or
+        (board[2][1]=='X' and board[2][2]=='X' and board[2][3]=='X' )or
 
-            (tabla[7]=='X' and tabla[8]=='X' and tabla[9]=='X' )or
+        (board[3][1]=='X' and board[3][2]=='X' and board[3][3]=='X' )or
 
-            (tabla[1]=='X' and tabla[4]=='X' and tabla[7]== 'X' )or
+        (board[1][1]=='X' and board[2][1]=='X' and board[3][1]== 'X' )or
 
-            (tabla[2]=='X' and tabla[5]=='X' and tabla[8]=='X' )or
+        (board[1][2]=='X' and board[2][2]=='X' and board[3][2]=='X' )or
 
-            (tabla[3]=='X' and tabla[6]=='X' and tabla[9]=='X' )or
+        (board[1][3]=='X' and board[2][3]=='X' and board[3][3]=='X' )or
 
-            (tabla[1]=='X' and tabla[5]=='X' and tabla[9]=='X' )or 
+        (board[1][1]=='X' and board[2][2]=='X' and board[3][3]=='X' )or
 
-            (tabla[3]=='X' and tabla[5]=='X' and tabla[7]=='X' ))
-
+        (board[1][3]=='X' and board[2][2]=='X' and board[3][1]=='X' )):
+        return True
+    
+def check_draw(board):
+    if board[1][1] and board[1][2] and board[1][3] and board[2][2] and board[2][3] and board[3][3]:
+        return True
+    else: return False
+            
 
 
 # game
@@ -62,51 +71,96 @@ print('Üdvölünk a DBM csapat amőba játékában!')
 
 
 #irányítás magyarázat
-#játékmód választás
 
 #játék
     #játéktábla xx
+tabla = []
 
-tabla = [
-    [' ', 1, 2, 3],
-    ['A', None, None, None],
-    ['B', None, None, None],
-    ['C' ,None, None, None]
-]
+info_sor = ['', 1, 2 ,3]
+tabla.append(info_sor)
+a = ['A', None, None, None]
+tabla.append(a)
+b = ['B', None, None, None]
+tabla.append(b)
+c = ['C', None, None, None]
+tabla.append(c)
+
 
     #játéktábla használata
-game_display()
+Run = True
+while Run:
+    game_display(tabla)
 
-print('Az 1. játékos következik')
-x1 = input('Add meg a függőleges kordinációt! (A-C)')
-if x1 == 'A':
-    x1 = 1
-elif x1 == 'B':
-    x1 = 2
-elif x1 == 'C':
-    x1 = 3
+    print('Az 1. játékos következik')
+    x1 = input('Add meg a függőleges kordinációt! (A-C)').capitalize()
+    if x1 == 'A':
+        x1 = 1
+    elif x1 == 'B':
+        x1 = 2
+    elif x1 == 'C':
+        x1 = 3
+    else:
+        print('Nincsen ilyen betükordináció!')
 
-y1 = int(input('Add meg a vízszinted kordinációt! (1-3)'))
+    x2 = int(input('Add meg a vízszinted kordinációt! (1-3)'))   
+#    if x2 != 1 or x2 != 2 or x2 != 3:
+#        print('Nincsen ilyen számkordináció!')
 
-rajzX(x1, y1)
-
-
-print('Az 2. játékos következik')
-x2 = input('Add meg a függőleges kordinációt! (A-C)')
-if x2 == 'A':
-    x2 = 1
-elif x2 == 'B':
-    x2 = 2
-elif x2 == 'C':
-    x2 = 3
-
-y2 = int(input('Add meg a vízszinted kordinációt! (1-3)'))
-
-rajzO(x2, y2)
-
-game_display(tabla)
+    rajzX(tabla, x1, x2)
 
 
-#winner/loser tab
-check_winnerO(tabla)
-check_winnerX(tabla)
+    print('Az 2. játékos következik')
+    o1 = input('Add meg a függőleges kordinációt! (A-C)').capitalize()
+    if o1 == 'A':
+        o1 = 1
+    elif o1 == 'B':
+        o1 = 2
+    elif o1 == 'C':
+        o1 = 3
+    else:
+        print('Nincsen ilyen betükordináció!')
+
+    o2 = int(input('Add meg a vízszinted kordinációt! (1-3)'))
+#    if o2 != 1 or o2 != 2 or o2 != 3:
+#        print('Nincsen ilyen számkordináció!')
+
+
+    rajzO(tabla, o1, o2)
+
+    game_display(tabla)
+
+    #winner/loser tab
+    outcome1 = check_winnerO(tabla)
+    outcome2 = check_winnerX(tabla)
+    outcome3 = check_draw(tabla)
+
+    if outcome1 == True:
+        print('A játékot megnyerte: P1')
+        regame = input('Szeretnél tovább játszani? I/N').capitalize()
+        if regame == 'I':
+            print('Új játék!')
+            continue
+        if regame == 'N':
+            print('Köszönjük a játékot!')
+            break
+
+    elif outcome2 == True:
+        print('A játékot megnyerte: P2')
+        regame = input('Szeretnél tovább játszani? I/N').capitalize()
+        if regame == 'I':
+            print('Új játék!')
+            continue
+        if regame == 'N':
+            print('Köszönjük a játékot!')
+            break   
+
+    elif outcome3 == True:
+        print('Döntetlen! Egyik játékos sem nyert!')
+        regame = input('Szeretnél tovább játszani? I/N').capitalize()
+        if regame == 'I':
+            print('Új játék!')
+            continue
+        if regame == 'N':
+            print('Köszönjük a játékot!')
+            break
+         
